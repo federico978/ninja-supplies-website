@@ -1,0 +1,110 @@
+---
+import { Image } from 'astro:assets';
+import { leadership } from '../data/content';
+---
+
+<!--
+  Understated by design: no card grid, no invented credentials. Only the supplied
+  name, role, single-line description, and the supplied portrait. The portraits
+  are pre-masked circles on a transparent background, so they are presented as
+  circles and sit directly on the section surface.
+-->
+<section id="leadership" class="section lead" aria-labelledby="leadership-title">
+  <div class="wrap">
+    <div class="lead__head grid12">
+      <p class="label lead__eyebrow rv">
+        <span class="mark" aria-hidden="true"></span>{leadership.index} / {leadership.eyebrow}
+      </p>
+      <h2 id="leadership-title" class="h2 lead__title rv rv-1">
+        {leadership.title.map((line) => <span>{line}</span>)}
+      </h2>
+    </div>
+
+    <ul class="lead__list">
+      {leadership.people.map((person) => (
+        <li class="lead__person rv">
+          <div class="lead__portrait">
+            <Image
+              src={person.portrait}
+              alt={person.portraitAlt}
+              widths={[128, 192, 256, 384]}
+              sizes="(max-width: 1020px) 96px, 132px"
+              formats={['webp']}
+              quality={86}
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="lead__id">
+            <h3 class="lead__name">{person.name}</h3>
+            <p class="label lead__role">{person.role}</p>
+          </div>
+          <p class="lead__bio">{person.bio}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .lead { border-top: 1px solid var(--hairline); }
+
+  .lead__head { padding-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .lead__eyebrow { grid-column: 1 / 13; margin-bottom: 1.8rem; display: flex; align-items: center; }
+  .lead__title { grid-column: 1 / 9; }
+
+  .lead__list { border-top: 1px solid var(--hairline-firm); }
+
+  .lead__person {
+    display: grid;
+    grid-template-columns: 132px minmax(240px, 1fr) minmax(280px, 1.1fr);
+    column-gap: var(--gap);
+    align-items: center;
+    padding: clamp(2.2rem, 3.6vw, 3.2rem) 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .lead__portrait { width: 132px; }
+  .lead__portrait :global(img) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    display: block;
+  }
+
+  .lead__name {
+    font-size: clamp(1.5rem, 2.6vw, 2.25rem);
+    line-height: 1.1;
+    letter-spacing: -0.019em;
+    font-weight: 600;
+    color: var(--ink-1);
+    text-wrap: balance;
+  }
+
+  .lead__role { color: var(--copper-text); font-weight: 600; margin-top: 0.6rem; }
+
+  .lead__bio {
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    color: var(--ink-2);
+    max-width: 46ch;
+  }
+
+  @media (max-width: 1020px) {
+    .lead__title { grid-column: 1 / 13; }
+    .lead__person {
+      grid-template-columns: 96px 1fr;
+      column-gap: 1.4rem;
+      row-gap: 1rem;
+      align-items: center;
+    }
+    .lead__portrait { width: 96px; }
+    .lead__bio { grid-column: 1 / 3; max-width: 60ch; }
+  }
+
+  @media (max-width: 430px) {
+    .lead__person { grid-template-columns: 76px 1fr; }
+    .lead__portrait { width: 76px; }
+  }
+</style>

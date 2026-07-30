@@ -1,0 +1,265 @@
+---
+import Figure from './Figure.astro';
+import { hero, company } from '../data/content';
+import immersionDetail from '../assets/images/immersion-cooling-detail.jpg';
+---
+
+<section id="overview" class="hero" aria-labelledby="hero-title">
+  <div class="hero__grid">
+
+    <p class="label hero__index rv">
+      <span class="mark" aria-hidden="true"></span>{hero.index} / {hero.eyebrow}
+    </p>
+
+    <h1 id="hero-title" class="hero__title rv rv-1">
+      {hero.headline.map((line, i) => (
+        <span class:list={['l', `l${i + 1}`]}>{line}</span>
+      ))}
+    </h1>
+
+    <p class="hero__lede rv rv-2">{hero.lede}</p>
+
+    <ul class="hero__refs rv rv-3">
+      {hero.references.map((ref) => (
+        <li>
+          <span class="label">{ref.label}</span>
+          <span class="v">{ref.value}</span>
+        </li>
+      ))}
+    </ul>
+
+    <div class="hero__actions rv rv-4">
+      <a class="btn btn--primary btn--lg" href={hero.primaryCta.href}>
+        {hero.primaryCta.label} <span class="arw" aria-hidden="true">→</span>
+      </a>
+      <a class="btn btn--ghost btn--lg" href={`mailto:${company.email}`}>{company.email}</a>
+    </div>
+
+    <!-- Primary visual. Deliberately large and bleeding off two edges so a real
+         deployment photograph can carry the first screen on its own.
+         Wrapped in an element owned by this component: Astro scopes styles to the
+         template that declares them, so a class passed into <Figure> would not be
+         matched by the rules below. -->
+    <div class="hero__figure">
+      <Figure
+        src={hero.image}
+        alt={hero.imageAlt}
+        caption={hero.imageCaption}
+        temp={false}
+        captionOverlay={true}
+        loading="eager"
+        fetchpriority="high"
+        sizes="(max-width: 900px) 100vw, 45vw"
+        widths={[640, 900, 1200, 1600]}
+      />
+    </div>
+
+    <!-- Layered secondary crop: depth, and a second scale of detail. -->
+    <div class="hero__detail">
+      <Figure
+        src={immersionDetail}
+        alt="Close aerial view of open-top immersion-cooling tanks filled with dielectric fluid, with distribution pipework running along the top of the row."
+        caption="Immersion cooling"
+        temp={false}
+        position="30% 55%"
+        sizes="224px"
+        widths={[224, 448, 672]}
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    padding-top: clamp(2.5rem, 5vw, 4.5rem);
+    padding-bottom: clamp(3rem, 6vw, 6rem);
+    overflow: clip;
+  }
+
+  .hero__grid {
+    position: relative;
+    max-width: var(--wrap);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    column-gap: var(--gap);
+    align-items: start;
+  }
+
+  .hero__index { grid-column: 1 / 6; grid-row: 1; margin-bottom: 1.7rem; display: flex; align-items: center; }
+
+  .hero__title {
+    grid-column: 1 / 8;
+    grid-row: 2;
+    position: relative;
+    z-index: 1;
+    font-size: var(--fs-display);
+    line-height: 0.98;
+    letter-spacing: -0.023em;
+    font-weight: 600;
+    color: var(--ink-1);
+    margin-bottom: 3.6rem;
+  }
+  .hero__title .l { display: block; }
+  .hero__title .l2 { padding-left: 0.09em; }
+  .hero__title .l3 { padding-left: 0.18em; }
+
+  /* The datum: one fine rule dropped below the headline, running past the frame.
+     It appears here and nowhere else on the page. */
+  .hero__title::after {
+    content: '';
+    position: absolute;
+    left: calc(-1 * var(--gutter));
+    right: -46vw;
+    bottom: -1.7rem;
+    height: 1px;
+    background: var(--hairline-firm);
+  }
+  .hero__title::before {
+    content: '';
+    position: absolute;
+    left: calc(-1 * var(--gutter));
+    width: 62%;
+    bottom: -1.7rem;
+    height: 7px;
+    background-image: repeating-linear-gradient(90deg, var(--copper) 0 1px, transparent 1px 118px);
+  }
+
+  .hero__lede {
+    grid-column: 1 / 6;
+    grid-row: 3;
+    font-size: var(--fs-lede);
+    line-height: 1.5;
+    color: var(--ink-2);
+    max-width: 46ch;
+    margin-bottom: 2.8rem;
+  }
+
+  .hero__refs {
+    grid-column: 1 / 7;
+    grid-row: 4;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--hairline);
+    margin-bottom: 2.6rem;
+  }
+  .hero__refs li {
+    padding: 1.05rem 1.1rem 1.05rem 0;
+    border-right: 1px solid var(--hairline);
+  }
+  .hero__refs li:last-child { border-right: 0; }
+  .hero__refs li:not(:first-child) { padding-left: 1.1rem; }
+  .hero__refs :global(.label) { display: block; margin-bottom: 0.5rem; }
+  .hero__refs .v {
+    display: block;
+    font-size: var(--fs-small);
+    line-height: 1.35;
+    color: var(--ink-1);
+    font-weight: 500;
+  }
+
+  .hero__actions {
+    grid-column: 1 / 7;
+    grid-row: 5;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  /* Dominant visual — bleeds top, bottom, and right so it reads as a slab
+     rather than a framed picture. Five columns: any wider and the display
+     headline can no longer hold its scale beside it. */
+  .hero__figure {
+    grid-column: 8 / 13;
+    grid-row: 1 / 6;
+    align-self: stretch;
+    position: relative;
+    z-index: 2;
+    min-height: 560px;
+    margin-top: calc(-1 * clamp(2.5rem, 5vw, 4.5rem));
+    margin-bottom: calc(-1 * clamp(3rem, 6vw, 6rem));
+    margin-right: calc(-1 * var(--gutter));
+  }
+  .hero__figure :global(.figure),
+  .hero__figure :global(.fig) { height: 100%; }
+  /* Focal point per breakpoint. The tall desktop slab shows roughly the middle
+     40% of the frame, so it is centred between the power module and the start
+     of the cooling row — both read at every size. */
+  .hero__figure :global(img) { object-position: 58% 52%; }
+
+  .hero__detail :global(.fig) { aspect-ratio: 1 / 1; }
+
+  .hero__detail {
+    position: absolute;
+    z-index: 4;
+    width: clamp(150px, 14vw, 224px);
+    /* Straddles the left edge of the image slab (column 8 = 58.3% of the grid)
+       without reaching back over the reference lines. */
+    left: 58.3%;
+    bottom: -1.5rem;
+    transform: translateX(-50%);
+  }
+  .hero__detail :global(.fig) {
+    border: 8px solid var(--limestone);
+    box-shadow: 0 18px 44px -22px rgba(42, 33, 26, 0.5);
+  }
+
+  @media (max-width: 1180px) {
+    .hero__title { grid-column: 1 / 9; }
+    .hero__lede, .hero__refs, .hero__actions { grid-column: 1 / 9; }
+    .hero__figure { grid-column: 9 / 13; min-height: 470px; }
+    .hero__detail { left: 66.7%; }
+  }
+
+  @media (max-width: 900px) {
+    .hero { padding-top: 2rem; padding-bottom: 3rem; }
+    /* align-items must return to stretch: the desktop grid uses `start`, which
+       in a column flex container collapses every child to its content width. */
+    .hero__grid { display: flex; flex-direction: column; align-items: stretch; }
+
+    .hero__index { order: 1; margin-bottom: 1.1rem; }
+    .hero__title { order: 2; margin-bottom: 2.8rem; }
+    .hero__title::after { right: calc(-1 * var(--gutter)); bottom: -1.2rem; }
+    .hero__title::before {
+      bottom: -1.2rem;
+      width: 78%;
+      background-image: repeating-linear-gradient(90deg, var(--copper) 0 1px, transparent 1px 84px);
+    }
+
+    .hero__figure {
+      order: 3;
+      min-height: 0;
+      margin: 0 calc(-1 * var(--gutter));
+      width: calc(100% + var(--gutter) * 2);
+    }
+    .hero__figure :global(.fig) { aspect-ratio: 4 / 5; height: auto; }
+    .hero__figure :global(img) { object-position: 55% 55%; }
+
+    .hero__detail { display: none; }
+
+    .hero__lede { order: 4; margin-top: 2.2rem; margin-bottom: 2rem; max-width: none; }
+    .hero__refs { order: 5; grid-template-columns: 1fr; margin-bottom: 2rem; }
+    .hero__refs li {
+      border-right: 0;
+      border-bottom: 1px solid var(--hairline);
+      padding: 0.9rem 0;
+    }
+    .hero__refs li:not(:first-child) { padding-left: 0; }
+    .hero__refs li:last-child { border-bottom: 0; }
+    .hero__actions { order: 6; }
+    .hero__actions .btn { flex: 1 1 auto; justify-content: center; }
+  }
+
+  /* The 4:5 portrait crop is right for a phone but becomes taller than the
+     viewport between 700 and 900px. */
+  @media (min-width: 561px) and (max-width: 900px) {
+    .hero__figure :global(.fig) { aspect-ratio: 3 / 2; }
+  }
+
+  @media (max-width: 430px) {
+    .hero__actions { flex-direction: column; }
+    .hero__actions .btn { width: 100%; }
+  }
+</style>

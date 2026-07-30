@@ -1,0 +1,75 @@
+/* ===========================================================================
+   NINJA SUPPLIES — DATUM
+   Design tokens
+   ===========================================================================
+   Contrast ratios noted against their intended background. Any value used for
+   text at small sizes clears 4.5:1; values marked "decorative" are for rules,
+   markers, and large elements only.
+   ======================================================================== */
+
+:root {
+  /* --- Surface ------------------------------------------------------ */
+  --limestone:      #F4F1EA;   /* page ground — warm, never white */
+  --paper:          #FAF8F3;   /* lifted panels */
+  --sand:           #E9E3D6;   /* section shift */
+  --sand-deep:      #DED7C7;   /* tags, insets */
+  --concrete:       #C8C2B6;   /* image matte */
+
+  /* --- Line --------------------------------------------------------- */
+  --hairline:       #D2CBBD;
+  --hairline-soft:  #E0DACD;
+  --hairline-firm:  #B7B0A0;
+
+  /* --- Ink on light ------------------------------------------------- */
+  --ink-1:          #23211E;   /* headlines            — 14.8:1 */
+  --ink-2:          #3F3D3A;   /* body, descriptions   —  9.5:1 */
+  --ink-3:          #63605A;   /* labels, secondary    —  5.6:1 */
+  --ink-4:          #8A8E8C;   /* decorative only */
+
+  /* --- Deep surfaces ------------------------------------------------ */
+  --charcoal:       #23211E;
+  --brown:          #33281F;
+  --brown-deep:     #2A211A;
+  --brown-line:     #4A3D31;
+
+  /* --- Ink on dark -------------------------------------------------- */
+  --on-dark-1:      #F4F1EA;   /* headlines            — 14.1:1 */
+  --on-dark-2:      #C6BCAB;   /* body                 —  8.5:1 */
+  --on-dark-3:      #9C9284;   /* labels               —  5.2:1 */
+
+  /* --- Accent ------------------------------------------------------- */
+  --copper:         #A65E2E;   /* rules, markers, large elements */
+  --copper-text:    #96541F;   /* small text on light  —  5.2:1 */
+  --copper-lite:    #C0713A;   /* fills on dark */
+  --copper-on-dark: #CE8047;   /* small text on dark   —  5.1:1 */
+
+  /* --- Type --------------------------------------------------------- */
+  --sans: 'Archivo Variable', 'Archivo', 'Helvetica Neue', Arial, system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --fs-display:  clamp(2.55rem, 5vw, 4.25rem);
+  --fs-h2:       clamp(2rem, 3.6vw, 3.15rem);
+  --fs-h3:       clamp(1.75rem, 2.9vw, 2.6rem);   /* system titles — enlarged */
+  --fs-h4:       clamp(1.15rem, 1.5vw, 1.375rem);
+  --fs-lede:     clamp(1.0625rem, 1.2vw, 1.25rem);
+  --fs-body:     1rem;
+  --fs-small:    0.9375rem;
+  --fs-label:    0.6875rem;
+
+  --ls-label: 0.14em;
+
+  /* --- Space -------------------------------------------------------- */
+  --gutter: clamp(1.25rem, 3.2vw, 3rem);
+  --wrap: 1560px;
+  --gap: clamp(1rem, 1.6vw, 1.5rem);
+  --sec-pad: clamp(5rem, 10vw, 10rem);
+  --header-h: 74px;
+
+  /* --- Motion ------------------------------------------------------- */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur: 420ms;
+}
+
+@media (max-width: 900px) {
+  :root { --header-h: 62px; }
+}

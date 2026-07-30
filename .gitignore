@@ -1,0 +1,114 @@
+# ---------------------------------------------------------------------------
+# Ninja Supplies — Git exclusions
+#
+# Cloudflare Pages installs dependencies and generates dist/ from source, so
+# no build output or dependency tree belongs in the repository.
+# ---------------------------------------------------------------------------
+
+# Build output
+dist/
+.astro/
+.output/
+.vercel/
+.netlify/
+
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+jspm_packages/
+
+# Environment and secrets — never commit real values.
+# .env.example is the documented template and is intentionally kept.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+*.jks
+credentials.json
+secrets.json
+.netrc
+.npmrc
+.yarnrc
+.yarnrc.yml
+auth.json
+*token*.json
+*credential*.json
+.aws/
+.ssh/
+
+# ---------------------------------------------------------------------------
+# Source photography — NOT for GitHub.
+# High-resolution originals stay on the local machine only. The optimized
+# web images the site actually uses live in src/assets/images/ and ARE tracked.
+# ---------------------------------------------------------------------------
+images-originals/
+
+# ---------------------------------------------------------------------------
+# Stage 3 visual prototype — archived locally, not part of the production build.
+# No production component references it. Kept on disk, excluded from Git.
+# ---------------------------------------------------------------------------
+concept/
+
+# Caches
+.cache/
+.parcel-cache/
+.eslintcache
+.stylelintcache
+*.tsbuildinfo
+.turbo/
+.vite/
+node_modules/.vite/
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+report.*.json
+
+# Temporary files, scratch work, and screenshots
+tmp/
+temp/
+.tmp/
+*.tmp
+*.swp
+*.swo
+*~
+screenshots/
+*.screenshot.png
+Screenshot*.png
+Screen?Shot*.png
+
+# macOS
+.DS_Store
+.DS_Store?
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+# NB: the classic macOS "Icon\r" pattern is deliberately NOT listed here.
+# Written as `Icon?` it also matches an `icons/` directory, because git on
+# macOS runs with core.ignorecase=true — which silently drops public/icons/.
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Editors and local tooling config not required to build the site
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.claude/

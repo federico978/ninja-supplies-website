@@ -1,0 +1,86 @@
+---
+import { approach } from '../data/content';
+---
+
+<section id="company" class="section surface-sand approach" aria-labelledby="approach-title">
+  <div class="wrap">
+    <div class="approach__head grid12">
+      <p class="label approach__eyebrow rv">
+        <span class="mark" aria-hidden="true"></span>{approach.index} / {approach.eyebrow}
+      </p>
+      <h2 id="approach-title" class="h2 approach__title rv rv-1">
+        {approach.title.map((line) => <span>{line}</span>)}
+      </h2>
+    </div>
+
+    <ol class="approach__list">
+      {approach.points.map((point, i) => (
+        <li class="approach__item rv">
+          <span class="approach__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <div>
+            <h3 class="approach__item-title">{point.title}</h3>
+            <p class="approach__item-body">{point.body}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .approach__head { padding-bottom: clamp(2.5rem, 5vw, 4rem); }
+  .approach__eyebrow { grid-column: 1 / 13; margin-bottom: 1.8rem; display: flex; align-items: center; }
+  .approach__title { grid-column: 1 / 9; }
+
+  .approach__list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: clamp(2rem, 5vw, 5rem);
+    border-top: 1px solid var(--hairline-firm);
+  }
+
+  .approach__item {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    column-gap: var(--gap);
+    align-items: start;
+    padding: clamp(1.8rem, 2.8vw, 2.5rem) 0;
+    border-bottom: 1px solid var(--hairline);
+  }
+
+  .approach__num {
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--copper-text);
+    padding-top: 0.42rem;
+  }
+
+  .approach__item-title {
+    font-size: 1.3125rem;
+    line-height: 1.2;
+    letter-spacing: -0.014em;
+    font-weight: 600;
+    color: var(--ink-1);
+    margin-bottom: 0.65rem;
+    text-wrap: balance;
+  }
+
+  .approach__item-body {
+    font-size: var(--fs-small);
+    line-height: 1.6;
+    color: var(--ink-2);
+    max-width: 44ch;
+  }
+
+  @media (max-width: 1020px) {
+    .approach__title { grid-column: 1 / 13; }
+  }
+
+  @media (max-width: 760px) {
+    .approach__list { grid-template-columns: 1fr; }
+    .approach__item { grid-template-columns: 44px 1fr; }
+    .approach__item-body { max-width: none; }
+  }
+</style>

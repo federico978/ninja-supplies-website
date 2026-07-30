@@ -1,0 +1,78 @@
+---
+import Wordmark from './Wordmark.astro';
+import { company, nav } from '../data/content';
+---
+
+<footer class="site-footer">
+  <div class="wrap site-footer__in">
+    <div class="site-footer__brand">
+      <a href="#top" aria-label={`${company.name} — top of page`}>
+        <Wordmark variant="stacked" />
+      </a>
+      <p class="label site-footer__focus">{company.focus}</p>
+    </div>
+
+    <nav class="site-footer__nav" aria-label="Footer">
+      {nav.map((item) => (
+        <a href={item.href}>{item.label}</a>
+      ))}
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="site-footer__meta">
+      <a class="site-footer__email" href={`mailto:${company.email}`}>{company.email}</a>
+      <p class="label">{company.copyright}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--brown);
+    color: var(--on-dark-2);
+    padding-block: clamp(3rem, 5vw, 4.5rem);
+    border-top: 1px solid var(--brown-line);
+  }
+
+  .site-footer__in {
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) auto auto;
+    gap: 2rem clamp(2rem, 5vw, 5rem);
+    align-items: start;
+  }
+
+  .site-footer__brand a { text-decoration: none; display: inline-block; }
+  .site-footer__focus { margin-top: 1.1rem; max-width: 30ch; }
+
+  .site-footer__nav { display: grid; gap: 0.55rem; }
+  .site-footer__nav a {
+    font-family: var(--mono);
+    font-size: var(--fs-label);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--on-dark-3);
+    text-decoration: none;
+    transition: color 280ms var(--ease);
+  }
+  .site-footer__nav a:hover { color: var(--copper-on-dark); }
+
+  .site-footer__meta { display: grid; gap: 0.6rem; justify-items: end; text-align: right; }
+  .site-footer__email {
+    color: var(--on-dark-1);
+    text-decoration: none;
+    border-bottom: 1px solid var(--brown-line);
+    padding-bottom: 0.2rem;
+    transition: color 280ms var(--ease), border-color 280ms var(--ease);
+  }
+  .site-footer__email:hover { color: var(--copper-on-dark); border-bottom-color: var(--copper-on-dark); }
+
+  @media (max-width: 900px) {
+    .site-footer__in { grid-template-columns: 1fr; }
+    .site-footer__meta { justify-items: start; text-align: left; }
+    .site-footer__nav { grid-auto-flow: column; grid-template-columns: none; justify-content: start; gap: 1.2rem; flex-wrap: wrap; }
+  }
+
+  @media (max-width: 560px) {
+    .site-footer__nav { grid-auto-flow: row; gap: 0.55rem; }
+  }
+</style>

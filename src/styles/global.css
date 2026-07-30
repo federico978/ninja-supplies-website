@@ -1,0 +1,242 @@
+/* ===========================================================================
+   NINJA SUPPLIES — DATUM
+   Global styles. Component-specific rules live in their .astro files.
+   ======================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header-h) + 24px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
+body {
+  margin: 0;
+  background: var(--limestone);
+  color: var(--ink-2);
+  font-family: var(--sans);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+img, svg, picture { display: block; max-width: 100%; }
+h1, h2, h3, h4, p, figure, ul, ol, blockquote, dl, dd { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+button { font: inherit; color: inherit; background: none; border: 0; }
+a { color: inherit; }
+
+:focus-visible {
+  outline: 2px solid var(--copper);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+.on-dark :focus-visible { outline-color: var(--copper-on-dark); }
+
+/* --- Skip link ------------------------------------------------------ */
+
+.skip {
+  position: absolute; left: 8px; top: 8px;
+  transform: translateY(-250%);
+  background: var(--charcoal); color: var(--limestone);
+  padding: 0.65rem 1rem; z-index: 999;
+  font-family: var(--mono); font-size: var(--fs-label);
+  letter-spacing: var(--ls-label); text-transform: uppercase;
+  text-decoration: none;
+  transition: transform 200ms var(--ease);
+}
+.skip:focus { transform: translateY(0); }
+
+/* --- Layout primitives ---------------------------------------------- */
+
+.wrap {
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.grid12 {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--gap);
+}
+
+.section { padding-block: var(--sec-pad); }
+
+/* Tonal surfaces — the page's dark/light rhythm */
+.surface-sand      { background: var(--sand); }
+.surface-paper     { background: var(--paper); }
+.surface-charcoal  { background: var(--charcoal); color: var(--on-dark-2); }
+.surface-brown     { background: var(--brown-deep); color: var(--on-dark-2); }
+
+.surface-charcoal h2, .surface-charcoal h3, .surface-brown h2, .surface-brown h3 { color: var(--on-dark-1); }
+
+/* --- Type primitives ------------------------------------------------ */
+
+.label {
+  font-family: var(--mono);
+  font-size: var(--fs-label);
+  line-height: 1.5;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 500;
+}
+.on-dark .label, .surface-charcoal .label, .surface-brown .label { color: var(--on-dark-3); }
+
+.mark {
+  display: inline-block;
+  width: 7px; height: 7px;
+  background: var(--copper);
+  margin-right: 0.75em;
+  vertical-align: 0.06em;
+  flex: none;
+}
+
+.h2 {
+  font-size: var(--fs-h2);
+  line-height: 1.03;
+  letter-spacing: -0.021em;
+  font-weight: 600;
+  color: var(--ink-1);
+  text-wrap: balance;
+}
+.h2 span { display: block; }
+
+.lede {
+  font-size: var(--fs-lede);
+  line-height: 1.5;
+  color: var(--ink-2);
+  max-width: 46ch;
+}
+.surface-charcoal .lede, .surface-brown .lede { color: var(--on-dark-2); }
+
+/* --- Section head --------------------------------------------------- */
+
+.sec-head { padding-bottom: clamp(2.75rem, 5.5vw, 4.5rem); align-items: end; }
+.sec-head__eyebrow { grid-column: 1 / 13; margin-bottom: 1.8rem; display: flex; align-items: center; }
+.sec-head__title { grid-column: 1 / 7; }
+.sec-head__lede { grid-column: 8 / 13; }
+
+@media (max-width: 1020px) {
+  .sec-head__title { grid-column: 1 / 13; margin-bottom: 1.6rem; }
+  .sec-head__lede { grid-column: 1 / 13; }
+  .sec-head__lede .lede { max-width: 62ch; }
+}
+
+/* --- Figures -------------------------------------------------------- */
+
+.fig {
+  position: relative;
+  overflow: hidden;
+  background: var(--concrete);
+}
+/* <Picture> wraps the <img> in a <picture>, which is inline by default and
+   would not stretch — the img's height:100% needs a filled parent. */
+.fig picture { display: block; width: 100%; height: 100%; }
+.fig img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Material grain — imagery only */
+.fig::after {
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.figcap {
+  display: flex; align-items: center; gap: 0.6rem;
+  font-family: var(--mono);
+  font-size: var(--fs-label);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  padding-top: 0.75rem;
+  line-height: 1.5;
+}
+.figcap .tag {
+  display: inline-block;
+  padding: 0.16rem 0.42rem;
+  background: var(--sand-deep);
+  color: var(--brown);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  flex: none;
+}
+.on-dark .figcap, .surface-charcoal .figcap, .surface-brown .figcap { color: var(--on-dark-3); }
+.on-dark .figcap .tag, .surface-charcoal .figcap .tag, .surface-brown .figcap .tag {
+  background: var(--brown-line); color: var(--sand);
+}
+
+/* --- Buttons -------------------------------------------------------- */
+
+.btn {
+  display: inline-flex; align-items: center; gap: 0.7rem;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 1rem 1.5rem;
+  border: 1px solid var(--hairline-firm);
+  transition: background var(--dur) var(--ease),
+              color var(--dur) var(--ease),
+              border-color var(--dur) var(--ease);
+}
+.btn .arw { transition: transform var(--dur) var(--ease); }
+.btn:hover .arw { transform: translateX(4px); }
+
+.btn--primary { background: var(--charcoal); color: var(--limestone); border-color: var(--charcoal); }
+.btn--primary:hover { background: var(--brown); border-color: var(--brown); }
+
+.btn--ghost { color: var(--ink-2); }
+.btn--ghost:hover { border-color: var(--copper); color: var(--copper-text); }
+
+.btn--lg { padding: 1.25rem 2rem; font-size: 0.8125rem; }
+
+.on-dark .btn--primary, .surface-brown .btn--primary {
+  background: var(--copper); border-color: var(--copper); color: #FFF7EE;
+}
+.on-dark .btn--primary:hover, .surface-brown .btn--primary:hover {
+  background: var(--copper-lite); border-color: var(--copper-lite);
+}
+.on-dark .btn--ghost, .surface-brown .btn--ghost { color: var(--on-dark-2); border-color: var(--brown-line); }
+.on-dark .btn--ghost:hover, .surface-brown .btn--ghost:hover {
+  border-color: var(--copper-on-dark); color: var(--copper-on-dark);
+}
+
+/* --- Reveal --------------------------------------------------------- *
+   Content is hidden for reveal ONLY when scripting is present, and a
+   load-time fallback reveals anything already on screen. Nothing can be
+   left permanently invisible by a missed observer callback.              */
+
+@media (prefers-reduced-motion: no-preference) {
+  .js .rv {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 700ms var(--ease), transform 700ms var(--ease);
+  }
+  .js .rv.in { opacity: 1; transform: none; }
+  .rv-1 { transition-delay: 60ms; }
+  .rv-2 { transition-delay: 120ms; }
+  .rv-3 { transition-delay: 180ms; }
+  .rv-4 { transition-delay: 240ms; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

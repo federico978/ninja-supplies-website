@@ -1,0 +1,124 @@
+---
+/**
+ * Figure
+ * ---------------------------------------------------------------------------
+ * Every image on the page goes through here.
+ *
+ * - Real photographs are imported from `src/assets/images` and arrive as
+ *   ImageMetadata. They go through Astro's image pipeline: AVIF + WebP with a
+ *   raster fallback, responsive `widths`, and intrinsic width/height so there
+ *   is no layout shift.
+ * - Temporary concept assets are SVG paths under /public. There is nothing for
+ *   an image pipeline to do with them, so they render as a plain <img>.
+ *
+ * Crops are art-directed with `position` (object-position) rather than by
+ * generating cropped files, which keeps every original frame intact.
+ */
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata | string;
+  alt: string;
+  caption?: string;
+  /** Adds the visible "Temp" tag. Real photography must pass temp={false}. */
+  temp?: boolean;
+  /** CSS aspect-ratio for the frame, e.g. "16 / 9". Omit to fill the parent. */
+  ratio?: string;
+  /** object-position, for art-directing the crop. */
+  position?: string;
+  loading?: 'lazy' | 'eager';
+  fetchpriority?: 'high' | 'low' | 'auto';
+  /** Rendered widths for srcset generation. */
+  widths?: number[];
+  sizes?: string;
+  class?: string;
+  /** Renders the caption over the image instead of beneath it. */
+  captionOverlay?: boolean;
+}
+
+const {
+  src,
+  alt,
+  caption,
+  temp = false,
+  ratio,
+  position,
+  loading = 'lazy',
+  fetchpriority = 'auto',
+  widths,
+  sizes = '100vw',
+  class: className = '',
+  captionOverlay = false,
+} = Astro.props;
+
+const isPhoto = typeof src !== 'string';
+const frameStyle = ratio ? `aspect-ratio:${ratio}` : undefined;
+const imgStyle = position ? `object-position:${position}` : undefined;
+
+const defaultWidths = [480, 768, 1024, 1440, 1920, 2560];
+const resolvedWidths = (widths ?? defaultWidths).filter(
+  (w) => !isPhoto || w <= (src as ImageMetadata).width
+);
+---
+
+<figure class:list={['figure', className, { 'figure--overlay': captionOverlay }]}>
+  <div class="fig" style={frameStyle}>
+    {isPhoto ? (
+      <Picture
+        src={src as ImageMetadata}
+        alt={alt}
+        formats={['avif', 'webp']}
+        fallbackFormat="jpeg"
+        widths={resolvedWidths}
+        sizes={sizes}
+        loading={loading}
+        fetchpriority={fetchpriority}
+        decoding="async"
+        quality={74}
+        style={imgStyle}
+      />
+    ) : (
+      <img
+        src={src as string}
+        alt={alt}
+        loading={loading}
+        fetchpriority={fetchpriority}
+        decoding="async"
+        style={imgStyle}
+      />
+    )}
+    {caption && captionOverlay && (
+      <figcaption class="figcap figcap--overlay">
+        {temp && <span class="tag">Temp</span>}
+        <span>{caption}</span>
+      </figcaption>
+    )}
+  </div>
+  {caption && !captionOverlay && (
+    <figcaption class="figcap">
+      {temp && <span class="tag">Temp</span>}
+      <span>{caption}</span>
+    </figcaption>
+  )}
+</figure>
+
+<style>
+  .figure { margin: 0; min-width: 0; }
+  .figure--overlay .fig { height: 100%; }
+
+  .figcap--overlay {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 2;
+    padding: 0.6rem 0.9rem;
+    background: rgba(244, 241, 234, 0.93);
+    color: var(--ink-3);
+  }
+  :global(.surface-charcoal) .figcap--overlay,
+  :global(.surface-brown) .figcap--overlay {
+    background: rgba(42, 33, 26, 0.9);
+    color: var(--on-dark-3);
+  }
+</style>

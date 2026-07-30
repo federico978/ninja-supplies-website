@@ -1,0 +1,171 @@
+---
+import SectionHead from './SectionHead.astro';
+import Figure from './Figure.astro';
+import { method } from '../data/content';
+---
+
+<section id="method" class="section surface-charcoal method" aria-labelledby="method-title">
+  <div class="wrap">
+    <SectionHead
+      index={method.index}
+      eyebrow={method.eyebrow}
+      title={method.title}
+      lede={method.lede}
+      id="method-title"
+    />
+  </div>
+
+  <!-- Wide band: the site as it is found, before anything is specified. -->
+  <div class="method__band rv">
+    <Figure
+      src={method.image}
+      alt={method.imageAlt}
+      caption={method.imageCaption}
+      temp={false}
+      captionOverlay={true}
+      position="50% 64%"
+      sizes="100vw"
+      widths={[768, 1200, 1800, 2400]}
+    />
+  </div>
+
+  <div class="wrap">
+    <ol class="stages">
+      {method.stages.map((stage) => (
+        <li class="stage rv">
+          <span class="stage__num" aria-hidden="true">{stage.number}</span>
+          <div class="stage__main">
+            <h3 class="stage__title">
+              <span class="stage__num-sr">Stage {stage.number}.</span>
+              {stage.title}
+            </h3>
+            <p class="stage__body">{stage.body}</p>
+          </div>
+          <div class="stage__output">
+            <span class="label">Output</span>
+            <span class="stage__output-value">{stage.output}</span>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .method :global(.h2) { color: var(--on-dark-1); }
+
+  /* Crop set here, not via the component's `ratio` prop, which writes an
+     inline style a media query cannot override. */
+  .method__band { margin-bottom: clamp(3rem, 6vw, 5rem); }
+  .method__band :global(.fig) { aspect-ratio: 21 / 9; }
+
+  @media (max-width: 1020px) {
+    .method__band :global(.fig) { aspect-ratio: 16 / 9; }
+  }
+  @media (max-width: 640px) {
+    .method__band :global(.fig) { aspect-ratio: 4 / 3; }
+  }
+
+  .stages {
+    position: relative;
+    border-top: 1px solid var(--brown-line);
+  }
+
+  .stage {
+    display: grid;
+    grid-template-columns: 104px minmax(240px, 1.35fr) minmax(220px, 0.85fr);
+    column-gap: var(--gap);
+    align-items: start;
+    padding: clamp(2.2rem, 3.4vw, 3.2rem) 0;
+    border-bottom: 1px solid var(--brown-line);
+    position: relative;
+  }
+
+  /* Sequence connector — the stages are ordered, and the line says so. */
+  .stage::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--brown-line);
+  }
+  .stage:first-child::before { top: clamp(2.2rem, 3.4vw, 3.2rem); }
+  .stage:last-child::before { bottom: auto; height: clamp(2.2rem, 3.4vw, 3.2rem); }
+
+  .stage__num {
+    font-family: var(--mono);
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--copper-on-dark);
+    position: relative;
+    padding-top: 0.45rem;
+    padding-left: 34px;
+  }
+  /* Node on the connector */
+  .stage__num::before {
+    content: '';
+    position: absolute;
+    left: 11px;
+    top: 0.7rem;
+    width: 9px; height: 9px;
+    background: var(--copper);
+  }
+
+  .stage__num-sr {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .stage__title {
+    font-size: clamp(1.35rem, 2.1vw, 1.85rem);
+    line-height: 1.14;
+    letter-spacing: -0.016em;
+    font-weight: 600;
+    color: var(--on-dark-1);
+    margin-bottom: 0.8rem;
+    text-wrap: balance;
+  }
+
+  .stage__body {
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    color: var(--on-dark-2);
+    max-width: 52ch;
+  }
+
+  .stage__output {
+    align-self: start;
+    border-top: 2px solid var(--copper);
+    padding-top: 0.9rem;
+    margin-top: 0.45rem;
+  }
+  .stage__output :global(.label) { display: block; margin-bottom: 0.5rem; }
+  .stage__output-value {
+    display: block;
+    font-size: 1rem;
+    line-height: 1.4;
+    color: var(--on-dark-1);
+    font-weight: 500;
+  }
+
+  @media (max-width: 1020px) {
+    .stage { grid-template-columns: 84px 1fr; row-gap: 1.4rem; }
+    .stage__main { grid-column: 2 / 3; }
+    .stage__output { grid-column: 2 / 3; margin-top: 0; }
+    .stage__body { max-width: 60ch; }
+  }
+
+  @media (max-width: 900px) {
+    .stage { grid-template-columns: 70px 1fr; }
+    .stage::before { left: 11px; }
+    .stage__num { padding-left: 26px; }
+    .stage__num::before { left: 7px; }
+  }
+</style>

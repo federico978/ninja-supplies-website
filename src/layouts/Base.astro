@@ -1,0 +1,151 @@
+---
+/* Self-hosted, open-licensed. No third-party font request at runtime.
+   Archivo is loaded with the width axis so the wordmark can sit semi-expanded;
+   IBM Plex Mono is restricted to the latin subset and the three weights used. */
+import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource/ibm-plex-mono/latin-400.css';
+import '@fontsource/ibm-plex-mono/latin-500.css';
+import '@fontsource/ibm-plex-mono/latin-600.css';
+
+import '../styles/tokens.css';
+import '../styles/global.css';
+
+import { meta, company } from '../data/content';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = meta.title, description = meta.description } = Astro.props;
+
+/**
+ * The production domain has not been chosen. `Astro.site` is only defined when
+ * PUBLIC_SITE_URL is set, so every absolute-URL tag below is emitted
+ * conditionally. Nothing is inferred from the company name or contact email.
+ */
+const site = Astro.site;
+const canonical = site ? new URL(Astro.url.pathname, site).href : undefined;
+const ogImage = site && meta.ogImage ? new URL(meta.ogImage, site).href : undefined;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#F4F1EA" />
+
+    {canonical && <link rel="canonical" href={canonical} />}
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.svg" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={company.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content="en_US" />
+    {canonical && <meta property="og:url" content={canonical} />}
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    {ogImage && <meta property="og:image:width" content="1200" />}
+    {ogImage && <meta property="og:image:height" content="630" />}
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
+
+    <!-- Reveal styles apply only when scripting is available. -->
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+  </head>
+
+  <body id="top">
+    <a class="skip" href="#main">Skip to content</a>
+    <slot />
+
+    <script>
+      /* ------------------------------------------------------------------
+         Site behaviour. Deliberately small: a sticky-header hairline, scroll
+         reveals, and nav section state. Everything degrades safely.
+         ------------------------------------------------------------------ */
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      /* Header hairline */
+      const header = document.getElementById('site-header');
+      if (header) {
+        const onScroll = () => header.classList.toggle('is-stuck', window.scrollY > 8);
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+      }
+
+      /* Reveal on entry */
+      const revealAll = () =>
+        document.querySelectorAll('.rv').forEach((el) => el.classList.add('in'));
+
+      if (!reduced && 'IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('in');
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
+        );
+        document.querySelectorAll('.rv').forEach((el) => io.observe(el));
+
+        /* Safety net: anything already on screen is revealed on load even if the
+           observer has not reported (background tabs, throttled renderers). No
+           element can be left permanently hidden by a missed callback. */
+        window.addEventListener('load', () => {
+          document.querySelectorAll('.rv:not(.in)').forEach((el) => {
+            const r = el.getBoundingClientRect();
+            if (r.top < window.innerHeight && r.bottom > 0) {
+              el.classList.add('in');
+              io.unobserve(el);
+            }
+          });
+        });
+      } else {
+        revealAll();
+      }
+
+      /* Current section in the nav */
+      const navLinks = Array.from(
+        document.querySelectorAll<HTMLAnchorElement>('.nav a[href^="#"]')
+      );
+      if (navLinks.length && 'IntersectionObserver' in window) {
+        const targets = navLinks
+          .map((a) => document.querySelector(a.getAttribute('href') as string))
+          .filter((el): el is Element => Boolean(el));
+
+        const spy = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              navLinks.forEach((a) =>
+                a.setAttribute(
+                  'aria-current',
+                  a.getAttribute('href') === `#${entry.target.id}` ? 'true' : 'false'
+                )
+              );
+            });
+          },
+          { rootMargin: '-45% 0px -50% 0px' }
+        );
+        targets.forEach((t) => spy.observe(t));
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,103 @@
+---
+import SectionHead from './SectionHead.astro';
+import { environments } from '../data/content';
+---
+
+<section id="environments" class="section env" aria-labelledby="environments-title">
+  <div class="wrap">
+    <SectionHead
+      index={environments.index}
+      eyebrow={environments.eyebrow}
+      title={environments.title}
+      lede={environments.lede}
+      id="environments-title"
+    />
+
+    <ul class="env__list">
+      {environments.items.map((item, i) => (
+        <li class="env__item rv">
+          <span class="env__index label">{String(i + 1).padStart(2, '0')}</span>
+          <h3 class="env__title">{item.title}</h3>
+          <p class="env__body">{item.body}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .env { border-top: 1px solid var(--hairline); }
+
+  .env__list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: var(--gap);
+    border-top: 1px solid var(--hairline-firm);
+  }
+
+  .env__item {
+    grid-column: span 1;
+    padding: clamp(1.8rem, 2.8vw, 2.6rem) clamp(1rem, 2vw, 2rem) clamp(1.8rem, 2.8vw, 2.6rem) 0;
+    border-bottom: 1px solid var(--hairline);
+    position: relative;
+  }
+  /* Vertical rules between columns, drawn as insets so they stop at the edges */
+  .env__item:not(:nth-child(3n + 1))::before {
+    content: '';
+    position: absolute;
+    left: calc(-1 * var(--gap) / 2);
+    top: 0; bottom: 0;
+    width: 1px;
+    background: var(--hairline);
+  }
+  .env__item:not(:nth-child(3n + 1)) { padding-left: clamp(1rem, 2vw, 2rem); }
+
+  .env__index {
+    display: block;
+    color: var(--copper-text);
+    font-weight: 600;
+    margin-bottom: 1.1rem;
+  }
+
+  .env__title {
+    font-size: 1.25rem;
+    line-height: 1.2;
+    letter-spacing: -0.012em;
+    font-weight: 600;
+    color: var(--ink-1);
+    margin-bottom: 0.7rem;
+    text-wrap: balance;
+  }
+
+  .env__body {
+    font-size: var(--fs-small);
+    line-height: 1.55;
+    color: var(--ink-2);
+    max-width: 40ch;
+  }
+
+  @media (max-width: 1020px) {
+    .env__list { grid-template-columns: repeat(2, 1fr); }
+    .env__item:not(:nth-child(3n + 1))::before { content: none; }
+    .env__item:not(:nth-child(3n + 1)) { padding-left: 0; }
+    .env__item:nth-child(even)::before {
+      content: '';
+      position: absolute;
+      left: calc(-1 * var(--gap) / 2);
+      top: 0; bottom: 0;
+      width: 1px;
+      background: var(--hairline);
+    }
+    .env__item:nth-child(even) { padding-left: clamp(1rem, 2vw, 2rem); }
+  }
+
+  @media (max-width: 640px) {
+    .env__list { grid-template-columns: 1fr; }
+    .env__item,
+    .env__item:nth-child(even),
+    .env__item:not(:nth-child(3n + 1)) { padding-left: 0; padding-right: 0; }
+    .env__item::before,
+    .env__item:nth-child(even)::before { content: none; }
+    .env__body { max-width: none; }
+  }
+</style>

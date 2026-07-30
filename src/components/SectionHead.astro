@@ -1,0 +1,25 @@
+---
+interface Props {
+  index: string;
+  eyebrow: string;
+  title: readonly string[];
+  lede?: string;
+  id?: string;
+}
+const { index, eyebrow, title, lede, id } = Astro.props;
+---
+
+<header class="sec-head grid12">
+  <p class="label sec-head__eyebrow rv">
+    <span class="mark" aria-hidden="true"></span>{index} / {eyebrow}
+  </p>
+  <h2 class="h2 sec-head__title rv rv-1" id={id}>
+    {title.map((line) => <span>{line}</span>)}
+  </h2>
+  {lede && (
+    <div class="sec-head__lede rv rv-2">
+      <p class="lede">{lede}</p>
+      <slot name="lede-extra" />
+    </div>
+  )}
+</header>

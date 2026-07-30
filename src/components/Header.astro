@@ -1,0 +1,115 @@
+---
+import Wordmark from './Wordmark.astro';
+import { nav, company } from '../data/content';
+---
+
+<header class="site-header" id="site-header">
+  <div class="site-header__in">
+    <a class="site-header__brand" href="#top" aria-label={`${company.name} — top of page`}>
+      <Wordmark variant="horizontal" />
+    </a>
+
+    <nav class="nav" aria-label="Sections">
+      {nav.map((item) => (
+        <a href={item.href}><span class="n">{item.index}</span>{item.label}</a>
+      ))}
+    </nav>
+
+    <a class="btn btn--ghost site-header__cta" href={`mailto:${company.email}`}>
+      Enquire <span class="arw" aria-hidden="true">→</span>
+    </a>
+  </div>
+
+  <nav class="nav-mobile" aria-label="Sections">
+    {nav.map((item) => (
+      <a href={item.href}><span class="n">{item.index}</span>{item.label}</a>
+    ))}
+    <a href="#contact"><span class="n">05</span>Contact</a>
+  </nav>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    background: var(--limestone);
+    border-bottom: 1px solid transparent;
+    transition: border-color 300ms var(--ease);
+  }
+  .site-header.is-stuck { border-bottom-color: var(--hairline); }
+
+  .site-header__in {
+    max-width: var(--wrap);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+    height: var(--header-h);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .site-header__brand { text-decoration: none; display: inline-flex; }
+
+  .nav { display: flex; align-items: center; gap: clamp(1.1rem, 2.4vw, 2.4rem); }
+  .nav a {
+    font-family: var(--mono);
+    font-size: var(--fs-label);
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ink-3);
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: baseline;
+    padding: 0.45rem 0;
+    transition: color 300ms var(--ease);
+  }
+  .nav a .n { color: var(--copper-text); font-weight: 600; }
+  .nav a:hover,
+  .nav a[aria-current='true'] { color: var(--ink-1); }
+
+  .nav-mobile { display: none; }
+
+  @media (max-width: 1080px) {
+    .nav { gap: 1rem; }
+    .site-header__cta { display: none; }
+  }
+
+  @media (max-width: 900px) {
+    .nav { display: none; }
+    .site-header__cta { display: inline-flex; padding: 0.7rem 1rem; }
+
+    /* Five items must wrap rather than overflow: a nav is essential content and
+       may not require horizontal scrolling to reach. */
+    .nav-mobile {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem clamp(0.8rem, 3.4vw, 1.6rem);
+      border-top: 1px solid var(--hairline);
+      padding: 0.7rem var(--gutter);
+      background: var(--limestone);
+      justify-content: flex-start;
+    }
+    .nav-mobile a {
+      font-family: var(--mono);
+      font-size: var(--fs-label);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      text-decoration: none;
+      display: inline-flex;
+      gap: 0.35rem;
+      align-items: baseline;
+    }
+    .nav-mobile a .n { color: var(--copper-text); font-weight: 600; }
+  }
+
+  /* Below this width the index numbers cost more room than they earn. */
+  @media (max-width: 430px) {
+    .nav-mobile { gap: 0.5rem 1rem; }
+    .nav-mobile a { letter-spacing: 0.08em; }
+    .nav-mobile a .n { display: none; }
+  }
+</style>

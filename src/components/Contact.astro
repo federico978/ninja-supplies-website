@@ -1,0 +1,122 @@
+---
+import { contact, company } from '../data/content';
+---
+
+<!--
+  No form. A disabled form reads as broken, and no handling method has been
+  chosen, so the email link is the entire contact action. The prompts do the
+  work the form fields were doing — they tell the reader what to send.
+-->
+<section id="contact" class="section surface-brown contact" aria-labelledby="contact-title">
+  <div class="wrap grid12">
+
+    <div class="contact__lead rv">
+      <p class="label contact__eyebrow">
+        <span class="mark" aria-hidden="true"></span>{contact.index} / {contact.eyebrow}
+      </p>
+      <h2 id="contact-title" class="contact__title">
+        {contact.title.map((line) => <span>{line}</span>)}
+      </h2>
+      <p class="contact__lede">{contact.lede}</p>
+    </div>
+
+    <div class="contact__action-col rv rv-2">
+      <a class="contact__action" href={`mailto:${company.email}`}>
+        <span class="contact__action-label label">{contact.emailLabel}</span>
+        <span class="contact__action-email">{company.email}</span>
+        <span class="contact__action-arw" aria-hidden="true">→</span>
+      </a>
+
+      <div class="contact__prompts">
+        <p class="label contact__prompts-label">{contact.promptLabel}</p>
+        <ul>
+          {contact.prompts.map((prompt) => <li>{prompt}</li>)}
+        </ul>
+        <p class="contact__closing">{contact.closing}</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .contact__lead { grid-column: 1 / 6; }
+  .contact__action-col { grid-column: 7 / 13; }
+
+  .contact__eyebrow { margin-bottom: 1.8rem; display: flex; align-items: center; }
+
+  .contact__title {
+    font-size: var(--fs-h2);
+    line-height: 1.04;
+    letter-spacing: -0.021em;
+    font-weight: 600;
+    color: var(--on-dark-1);
+    margin-bottom: 1.6rem;
+    text-wrap: balance;
+  }
+  .contact__title span { display: block; }
+
+  .contact__lede {
+    font-size: var(--fs-lede);
+    line-height: 1.55;
+    color: var(--on-dark-2);
+    max-width: 44ch;
+  }
+
+  /* Primary call to action — the largest, warmest thing on the page. */
+  .contact__action {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      'label arw'
+      'email arw';
+    align-items: center;
+    gap: 0.5rem 1.5rem;
+    padding: clamp(1.6rem, 2.8vw, 2.4rem);
+    background: var(--copper);
+    color: #FFF7EE;
+    text-decoration: none;
+    transition: background 320ms var(--ease);
+  }
+  .contact__action:hover { background: var(--copper-lite); }
+  .contact__action:hover .contact__action-arw { transform: translateX(5px); }
+
+  .contact__action-label { grid-area: label; color: #F8E3CD !important; }
+  .contact__action-email {
+    grid-area: email;
+    font-size: clamp(1.3rem, 2.5vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+    word-break: break-word;
+  }
+  .contact__action-arw {
+    grid-area: arw;
+    font-size: 1.6rem;
+    transition: transform 320ms var(--ease);
+  }
+
+  .contact__prompts { margin-top: clamp(2rem, 3.5vw, 2.8rem); }
+  .contact__prompts-label { display: block; margin-bottom: 1rem; }
+  .contact__prompts ul { border-top: 1px solid var(--brown-line); }
+  .contact__prompts li {
+    font-size: 1.0625rem;
+    line-height: 1.4;
+    color: var(--on-dark-1);
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--brown-line);
+  }
+  .contact__closing {
+    margin-top: 1.4rem;
+    font-size: var(--fs-small);
+    line-height: 1.55;
+    color: var(--on-dark-2);
+    max-width: 46ch;
+  }
+
+  @media (max-width: 1020px) {
+    .contact__lead, .contact__action-col { grid-column: 1 / 13; }
+    .contact__action-col { margin-top: clamp(2.5rem, 5vw, 3.5rem); }
+    .contact__lede { max-width: 60ch; }
+  }
+</style>

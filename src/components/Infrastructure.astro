@@ -1,0 +1,94 @@
+---
+import Figure from './Figure.astro';
+import { infrastructure } from '../data/content';
+---
+
+<!--
+  Visual infrastructure section.
+  Built around one dominant frame plus a three-part sequence, so a real project
+  photograph — or a set of them — can carry this section with no layout change.
+-->
+<section id="infrastructure" class="section surface-brown infra" aria-labelledby="infrastructure-title">
+  <div class="wrap">
+    <div class="infra__head grid12">
+      <p class="label infra__eyebrow rv">
+        <span class="mark" aria-hidden="true"></span>{infrastructure.index} / {infrastructure.eyebrow}
+      </p>
+      <h2 id="infrastructure-title" class="h2 infra__title rv rv-1">
+        {infrastructure.title.map((line) => <span>{line}</span>)}
+      </h2>
+      <p class="lede infra__lede rv rv-2">{infrastructure.lede}</p>
+    </div>
+  </div>
+
+  <!-- Feature frame runs the full viewport width. -->
+  <div class="infra__feature rv">
+    <Figure
+      src={infrastructure.feature.image}
+      alt={infrastructure.feature.alt}
+      caption={infrastructure.feature.caption}
+      temp={false}
+      captionOverlay={true}
+      position="50% 54%"
+      sizes="100vw"
+      widths={[768, 1200, 1800, 2400]}
+    />
+  </div>
+
+  <div class="wrap">
+    <ul class="infra__seq">
+      {infrastructure.sequence.map((item) => (
+        <li class="rv">
+          <Figure
+            src={item.image}
+            alt={item.alt}
+            caption={item.caption}
+            temp={false}
+            position={item.position}
+            sizes="(max-width: 760px) 100vw, 32vw"
+            widths={[420, 640, 900, 1300]}
+          />
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .infra { padding-bottom: clamp(3.5rem, 7vw, 7rem); }
+
+  .infra__eyebrow { grid-column: 1 / 13; margin-bottom: 1.8rem; display: flex; align-items: center; }
+  .infra__title { grid-column: 1 / 8; color: var(--on-dark-1); }
+  .infra__lede { grid-column: 9 / 13; align-self: end; }
+
+  .infra__head { padding-bottom: clamp(2.5rem, 5vw, 4rem); align-items: end; }
+
+  /* The feature crop is art-directed here rather than through the component's
+     `ratio` prop, which writes an inline style that media queries cannot
+     override. Note: never pair a min-height with aspect-ratio — a definite
+     height makes the box derive its width from that height and overflow. */
+  .infra__feature { margin-inline: 0; }
+  .infra__feature :global(.fig) { aspect-ratio: 21 / 9; }
+
+  .infra__seq {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--gap);
+    margin-top: clamp(1.5rem, 2.5vw, 2.2rem);
+  }
+  .infra__seq :global(.fig) { aspect-ratio: 4 / 3; }
+
+  @media (max-width: 1020px) {
+    .infra__title { grid-column: 1 / 13; margin-bottom: 1.4rem; }
+    .infra__lede { grid-column: 1 / 13; max-width: 60ch; }
+  }
+
+  @media (max-width: 1020px) {
+    .infra__feature :global(.fig) { aspect-ratio: 16 / 9; }
+  }
+
+  @media (max-width: 760px) {
+    .infra__feature :global(.fig) { aspect-ratio: 4 / 3; }
+    .infra__seq { grid-template-columns: 1fr; gap: 1.8rem; }
+  }
+</style>

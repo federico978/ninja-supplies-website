@@ -1,0 +1,62 @@
+---
+interface Props {
+  variant?: 'horizontal' | 'stacked' | 'compact';
+  class?: string;
+}
+const { variant = 'horizontal', class: className = '' } = Astro.props;
+---
+
+<span class:list={['wm', `wm--${variant}`, className]} aria-hidden="true">
+  <span class="a">Ninja</span><span class="b">Supplies</span>
+</span>
+
+<style>
+  /* Provisional typographic wordmark. Archivo at a semi-expanded width; the
+     weight step separates the two words without forcing them to equal widths,
+     which distorts the letterforms. Purely typographic — no symbol, no mark. */
+  .wm {
+    font-family: var(--sans);
+    text-transform: uppercase;
+    color: var(--ink-1);
+    line-height: 0.9;
+    display: inline-block;
+    white-space: nowrap;
+  }
+  /* font-stretch (not font-variation-settings) so the value is clamped by the
+     @font-face range and degrades correctly if the width axis is unavailable. */
+  .wm .a {
+    font-weight: 700;
+    font-stretch: 112%;
+    letter-spacing: 0.035em;
+  }
+  .wm .b {
+    font-weight: 500;
+    font-stretch: 112%;
+    letter-spacing: 0.055em;
+    color: var(--ink-2);
+  }
+
+  .wm--horizontal { font-size: 1.05rem; }
+  .wm--horizontal .b { margin-left: 0.42em; }
+
+  .wm--stacked { font-size: 2.1rem; line-height: 0.84; white-space: normal; }
+  .wm--stacked .a,
+  .wm--stacked .b { display: block; }
+  .wm--stacked .b { margin-left: 0; letter-spacing: 0.028em; }
+
+  .wm--compact { font-size: 0.8125rem; }
+  .wm--compact .a { letter-spacing: 0.06em; }
+  .wm--compact .b { margin-left: 0.4em; letter-spacing: 0.08em; }
+
+  /* Reversed */
+  :global(.on-dark) .wm,
+  :global(.surface-brown) .wm,
+  :global(.surface-charcoal) .wm { color: var(--on-dark-1); }
+  :global(.on-dark) .wm .b,
+  :global(.surface-brown) .wm .b,
+  :global(.surface-charcoal) .wm .b { color: var(--on-dark-2); }
+
+  @media (max-width: 430px) {
+    .wm--horizontal { font-size: 0.9375rem; }
+  }
+</style>
