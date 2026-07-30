@@ -42,6 +42,16 @@ import { company, nav } from '../data/content';
   }
 
   .site-footer__brand a { text-decoration: none; display: inline-block; }
+
+  /* The footer is a dark surface, but it does not carry the .on-dark /
+     .surface-brown class that Wordmark keys its reversed colours off, so the
+     lockup was inheriting charcoal at 1.12:1 against the brown. Set the light
+     tone here, scoped to the brand lockup so nothing else in the footer moves.
+     Typography, size, position, spacing and the 700/500 weight step are
+     unchanged; the two words are now distinguished by weight alone. */
+  .site-footer__brand :global(.wm .a),
+  .site-footer__brand :global(.wm .b) { color: var(--on-dark-1); }
+
   .site-footer__focus { margin-top: 1.1rem; max-width: 30ch; }
 
   .site-footer__nav { display: grid; gap: 0.55rem; }
