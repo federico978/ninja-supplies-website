@@ -378,7 +378,7 @@ export const infrastructure = {
 export const approach = {
   index: '07',
   eyebrow: 'Why Ninja Supplies',
-  title: ['What working with us', 'actually changes.'],
+  title: ['Why operators work with us.'],
   points: [
     {
       title: 'Direct operating experience',
