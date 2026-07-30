@@ -39,9 +39,9 @@ export const company = {
 } as const;
 
 export const meta = {
-  title: 'Ninja Supplies — Modular infrastructure for computing at the energy source',
+  title: 'Ninja Supplies: Modular infrastructure for computing at the energy source',
   description:
-    'Ninja Supplies configures, sources, and deploys modular data center infrastructure — power, cooling, enclosure, and logistics — for computing operations sited at the power they run on.',
+    'Ninja Supplies configures, sources, and deploys modular data center infrastructure (power, cooling, enclosure, and logistics) for computing operations sited at the power they run on.',
   /**
    * Social share image. Requires a 1200×630 raster at public/og/og-cover.png.
    * Left null until that asset exists so no broken path is ever emitted.
@@ -96,8 +96,8 @@ export const position = {
     'This work starts with the power and builds to it.',
   ],
   body: [
-    'Energy is frequently available where conventional data center development is impractical — too remote, too slow to permit, too far from a grid connection, or mismatched to the load it would have to carry. That gap is where Ninja Supplies works: taking a site’s actual conditions and available power, and resolving them into infrastructure that can be procured, delivered, installed, and operated.',
-    'This is not procurement. Specifying a transformer is straightforward. Making the transformer, the cooling method, the enclosure, the transport route, and the commissioning sequence agree with one another — under the conditions of a specific site — is the work.',
+    'Energy is frequently available where conventional data center development is impractical (too remote, too slow to permit, too far from a grid connection, or mismatched to the load it would have to carry). That gap is where Ninja Supplies works: taking a site’s actual conditions and available power, and resolving them into infrastructure that can be procured, delivered, installed, and operated.',
+    'This is not procurement. Specifying a transformer is straightforward. Making the transformer, the cooling method, the enclosure, the transport route, and the commissioning sequence agree with one another, under the conditions of a specific site, is the work.',
   ],
   aside: {
     label: 'What this is not',
@@ -106,7 +106,7 @@ export const position = {
   image: gasProcessingSite,
   imageAlt:
     'Ground-level view of a gas processing site: a row of storage tanks with an access stairway, two vertical separator vessels, connecting pipework and a control cabinet, on open desert ground.',
-  imageCaption: 'Production infrastructure — where the available energy already is',
+  imageCaption: 'Production infrastructure, where the available energy already is',
 } as const;
 
 /* -------------------------------------------------------------- SYSTEMS -- */
@@ -137,7 +137,7 @@ export const systems = {
   lede:
     'Power, cooling, enclosure, and logistics are not separate purchases. Each one sets the limits of the others, and a decision taken in isolation is usually reversed on site. We specify them together.',
   legend:
-    'Select a system to see what it covers. The codes show direct dependencies — hover or focus a row to see which systems it constrains.',
+    'Select a system to see what it covers. The codes show direct dependencies. Hover or focus a row to see which systems it constrains.',
   entries: [
     {
       code: 'MDC',
@@ -176,7 +176,7 @@ export const systems = {
       ],
       dependsOn: ['MDC', 'CLG', 'INT'],
       dependency:
-        'The characteristics of the source and the distance to the pad determine the distribution design — and with it, what the enclosure and the cooling can support.',
+        'The characteristics of the source and the distance to the pad determine the distribution design, and with it, what the enclosure and the cooling can support.',
       image: deploymentSiteAerial,
       imageAlt:
         'A containerized power module on a trailer with roof-mounted radiators and a side air intake, a smaller generator set beside it, and bundled cables running out across the ground.',
@@ -209,7 +209,7 @@ export const systems = {
       name: 'Deployment and Logistics',
       short: 'Logistics',
       summary:
-        'Sourcing, transport, and field execution — from equipment procurement through installation and commissioning support on site.',
+        'Sourcing, transport, and field execution: from equipment procurement through installation and commissioning support on site.',
       covers: [
         'Equipment sourcing',
         'Transportation planning',
@@ -268,7 +268,7 @@ export const method = {
     {
       number: '01',
       title: 'Requirements and Site Conditions',
-      body: 'What the site actually provides — available power and its characteristics, ambient conditions, access, ground, and the operating requirement the infrastructure has to meet.',
+      body: 'What the site actually provides: available power and its characteristics, ambient conditions, access, ground, and the operating requirement the infrastructure has to meet.',
       output: 'Defined constraints and load profile',
     },
     {
@@ -398,7 +398,7 @@ export const approach = {
     },
     {
       title: 'Present through commissioning',
-      body: 'Involvement continues past delivery — through installation, energization, and verification against the original requirement.',
+      body: 'Involvement continues past delivery, through installation, energization, and verification against the original requirement.',
     },
   ],
 } as const;
@@ -432,9 +432,9 @@ export const leadership = {
 export const contact = {
   index: '09',
   eyebrow: 'Contact',
-  title: ['Tell us the site, the power available, and the requirement.'],
+  title: ['Planning a deployment?'],
   lede:
-    'Early configuration questions are the cheapest ones to answer. Send the constraints you already know and we will work from there.',
+    'Tell us the site, available power, capacity requirement and target timeline.',
   emailLabel: 'Email us directly',
   /**
    * No form. A disabled form reads as broken; the email link is the whole
@@ -448,5 +448,5 @@ export const contact = {
     'Capacity you are targeting',
     'Timing and any fixed dates',
   ],
-  closing: 'Nothing formal required — a short description of the site is enough to start.',
+  closing: 'Nothing formal required. A short description of the site is enough to start.',
 } as const;
