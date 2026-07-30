@@ -15,7 +15,9 @@ import { nav, company } from '../data/content';
       ))}
     </nav>
 
-    <a class="btn btn--ghost site-header__cta" href={`mailto:${company.email}`}>
+    <!-- Scrolls to the contact section rather than opening a mail client. The
+         only prominent mailto on the page is the copper block in Contact. -->
+    <a class="btn btn--ghost site-header__cta" href="#contact">
       Enquire <span class="arw" aria-hidden="true">→</span>
     </a>
   </div>

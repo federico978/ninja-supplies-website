@@ -1,6 +1,6 @@
 ---
 import Figure from './Figure.astro';
-import { hero, company } from '../data/content';
+import { hero } from '../data/content';
 import immersionDetail from '../assets/images/immersion-cooling-detail.jpg';
 ---
 
@@ -28,11 +28,12 @@ import immersionDetail from '../assets/images/immersion-cooling-detail.jpg';
       ))}
     </ul>
 
+    <!-- One CTA only. It scrolls to the contact section; the mail client is
+         opened from the copper block there, and nowhere else. -->
     <div class="hero__actions rv rv-4">
       <a class="btn btn--primary btn--lg" href={hero.primaryCta.href}>
         {hero.primaryCta.label} <span class="arw" aria-hidden="true">→</span>
       </a>
-      <a class="btn btn--ghost btn--lg" href={`mailto:${company.email}`}>{company.email}</a>
     </div>
 
     <!-- Primary visual. Deliberately large and bleeding off two edges so a real
@@ -160,12 +161,13 @@ import immersionDetail from '../assets/images/immersion-cooling-detail.jpg';
     font-weight: 500;
   }
 
+  /* A single CTA: the row sizes to the button rather than reserving width for a
+     second one, so there is no dead space beside it. */
   .hero__actions {
     grid-column: 1 / 7;
     grid-row: 5;
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
+    align-items: center;
   }
 
   /* Dominant visual — bleeds top, bottom, and right so it reads as a slab
@@ -249,7 +251,10 @@ import immersionDetail from '../assets/images/immersion-cooling-detail.jpg';
     .hero__refs li:not(:first-child) { padding-left: 0; }
     .hero__refs li:last-child { border-bottom: 0; }
     .hero__actions { order: 6; }
-    .hero__actions .btn { flex: 1 1 auto; justify-content: center; }
+    /* Sized to content at tablet. The old `flex: 1 1 auto` was there so two
+       buttons could share the row; with one CTA it stretched to the full
+       column. Full width returns at phone sizes below. */
+    .hero__actions .btn { justify-content: center; }
   }
 
   /* The 4:5 portrait crop is right for a phone but becomes taller than the
