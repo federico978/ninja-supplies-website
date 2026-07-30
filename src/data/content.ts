@@ -65,7 +65,11 @@ export const hero = {
    * Provisional headline. Alternatives kept below so they can be swapped in a
    * single edit and compared without touching any component.
    */
-  headline: ['Compute infrastructure,', 'deployed at the', 'energy source.'],
+  /* Three lines, not two: "Built for Real-World Deployment." measures 966px at
+     the 68px display size against a 777px column, so it would run under the
+     hero image. Splitting it keeps the descending 660 / 571 / 384 staircase the
+     stepped indents are built around. */
+  headline: ['Off-Grid Data Centers,', 'Built for Real-World', 'Deployment.'],
   headlineAlternatives: [
     ['Infrastructure built', 'where the power', 'already is.'],
     ['From available power', 'to operating', 'compute capacity.'],
@@ -73,11 +77,11 @@ export const hero = {
     ['Deployable infrastructure', 'for energy-intensive', 'computing.'],
   ],
   lede:
-    'Ninja Supplies configures, sources, and deploys modular data center infrastructure for computing operations sited at the power they run on.',
+    'Ninja Supplies provides modular data center infrastructure for energy-intensive computing operations. From equipment sourcing and system configuration to logistics and deployment support, we help operators move faster with infrastructure built for demanding environments.',
   references: [
     { label: 'Focus', value: 'United States and the Americas' },
     { label: 'Systems', value: 'Power · Cooling · Enclosure · Logistics' },
-    { label: 'Engagement', value: 'Configuration through commissioning' },
+    { label: 'Engagement', value: 'Configuration through deployment' },
   ],
   primaryCta: { label: 'Start a conversation', href: '#contact' },
   image: deploymentSiteAerial,
